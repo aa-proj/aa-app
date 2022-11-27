@@ -62,5 +62,12 @@ jobs:
           draft: true
           files: |
             win32-x64.zip
+            release/**/*.deb
+            release/**/*.dmg
+            release/**/*setup*.exe
+            release/**/*.nupkg
+            release/**/*.rpm
+            release/**/*.zip
+            release/**/RELEASES
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
