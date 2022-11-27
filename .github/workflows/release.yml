@@ -41,9 +41,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: zip
-        uses: montudor/action-zip@v1
-        run: zip -qq dist.zip -d dist
+#      - name: zip
+#        uses: montudor/action-zip@v1
+#        run: zip -qq dist.zip -d dist
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -51,6 +51,6 @@ jobs:
         with:
           draft: true
           files: |
-            dist.zip
+            dist/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
