@@ -1,4 +1,4 @@
-name: Release
+name: Build and Release
 
 on:
   push:
@@ -41,11 +41,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          # name: release_on_${{ matrix. os }}
+          name: release_on_windows
+          path: release/
+          retention-days: 5
+
       - name: zip
         uses: vimtor/action-zip@v1
         with:
-          files: dist/
-          dest: dist.zip
+          files: release/
+          dest: release.zip
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -53,6 +61,6 @@ jobs:
         with:
           draft: true
           files: |
-            dist.zip
+            release.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
