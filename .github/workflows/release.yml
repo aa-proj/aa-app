@@ -42,9 +42,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: zip
-      - uses: montudor/action-zip@v1
-        with:
-          args: zip -qq dist.zip -d dist
+        uses: montudor/action-zip@v1
+        run: zip -qq dist.zip -d dist
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
