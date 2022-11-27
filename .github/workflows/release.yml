@@ -52,8 +52,8 @@ jobs:
       - name: zip
         uses: vimtor/action-zip@v1
         with:
-          files: release/
-          dest: win32-x64.zip
+          files: release/win-unpacked
+          dest: release/win-packed.zip
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -61,13 +61,6 @@ jobs:
         with:
           draft: true
           files: |
-            win32-x64.zip
-            release/**/*.deb
-            release/**/*.dmg
-            release/**/*setup*.exe
-            release/**/*.nupkg
-            release/**/*.rpm
-            release/**/*.zip
-            release/**/RELEASES
+            release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
