@@ -76,7 +76,7 @@ async function createWindow() {
 
 app.on('ready', async function()  {
   await createWindow()
-  await autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdates();
 });
 
 app.on('window-all-closed', () => {
@@ -118,7 +118,6 @@ ipcMain.handle('open-win', (event, arg) => {
   }
 })
 
-// autoUpdater.checkForUpdatesAndNotify()
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
   win.webContents.send("main-process-message", "Checking for update...")
@@ -131,3 +130,15 @@ autoUpdater.on('update-not-available', (info) => {
   console.log('Update not available.');
   win.webContents.send("main-process-message", "Update not available", info)
 })
+autoUpdater.on('error', (err) => {
+  win.webContents.send("main-process-message",'Error in auto-updater. ' + err);
+})
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  win.webContents.send("main-process-message",log_message);
+})
+autoUpdater.on('update-downloaded', (info) => {
+  win.webContents.send("main-process-message",'Update downloaded');
+});
