@@ -125,9 +125,9 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (info) => {
   console.log('Update available.');
-  win.webContents.send("main-process-message", "Update available")
+  win.webContents.send("main-process-message", "Update available", info)
 })
 autoUpdater.on('update-not-available', (info) => {
   console.log('Update not available.');
-  win.webContents.send("main-process-message", "Update not available")
+  win.webContents.send("main-process-message", "Update not available", info)
 })
