@@ -34,18 +34,15 @@ jobs:
           node-version: 14
 
       - name: Cache node modules
-        id: cache-npm
+        id: node_modules_cache_id
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/node_modules
+          path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+
 
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: List the state of node modules
@@ -53,7 +50,8 @@ jobs:
         run: npm list
 
       - name: Install Dependencies
-        run: npm install
+        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: npm ci
 
       - name: Build Release Files
         run: npm run build
