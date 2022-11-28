@@ -8,13 +8,15 @@
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
+
 process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
+import { autoUpdater } from "electron-updater"
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -72,7 +74,10 @@ async function createWindow() {
   })
 }
 
-app.whenReady().then(createWindow)
+app.on('ready', async function()  {
+  await createWindow()
+  await autoUpdater.checkForUpdates();
+});
 
 app.on('window-all-closed', () => {
   win = null
@@ -111,4 +116,15 @@ ipcMain.handle('open-win', (event, arg) => {
   } else {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
+})
+
+// autoUpdater.checkForUpdatesAndNotify()
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for update...');
+})
+autoUpdater.on('update-available', (info) => {
+  console.log('Update available.');
+})
+autoUpdater.on('update-not-available', (info) => {
+  console.log('Update not available.');
 })
