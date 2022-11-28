@@ -10,7 +10,7 @@
     "pre": "npm version prerelease",
     "patch": "npm version patch",
     "minor": "npm version minor",
-    "publish": "electron-builder --win -p always",
+    "publish": "electron-builder -p always",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
   },
