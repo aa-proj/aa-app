@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "prerelease": "npm version prerelease",
+    "publish": "electron-builder --win -p always",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
   },

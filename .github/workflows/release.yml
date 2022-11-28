@@ -73,12 +73,17 @@ jobs:
           files: release/win-unpacked
           dest: release/win-packed.zip
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          draft: true
-          files: |
-            release/*
+      - name: Publish Release Files
+        run: npm run publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Create Release
+#        uses: softprops/action-gh-release@v1
+#        if: startsWith(github.ref, 'refs/tags/v')
+#        with:
+#          draft: true
+#          files: |
+#            release/*
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
