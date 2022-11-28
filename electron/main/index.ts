@@ -121,10 +121,13 @@ ipcMain.handle('open-win', (event, arg) => {
 // autoUpdater.checkForUpdatesAndNotify()
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
+  win.webContents.send("main-process-message", "Checking for update...")
 })
 autoUpdater.on('update-available', (info) => {
   console.log('Update available.');
+  win.webContents.send("main-process-message", "Update available")
 })
 autoUpdater.on('update-not-available', (info) => {
   console.log('Update not available.');
+  win.webContents.send("main-process-message", "Update not available")
 })
