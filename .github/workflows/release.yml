@@ -41,13 +41,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          # name: release_on_${{ matrix. os }}
-          name: release_on_windows
-          path: release/
-          retention-days: 5
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          # name: release_on_${{ matrix. os }}
+#          name: release_on_windows
+#          path: release/
+#          retention-days: 5
 
       - name: zip
         uses: vimtor/action-zip@v1
