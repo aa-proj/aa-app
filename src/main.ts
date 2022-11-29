@@ -7,3 +7,9 @@ createApp(App)
   .$nextTick(() => {
     postMessage({ payload: 'removeLoading' }, '*')
   })
+
+
+// Logger from Main Process
+window.api.on("log", (args: any) => {
+  console.log("[MAIN LOG]",...args)
+})

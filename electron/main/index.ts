@@ -1,22 +1,13 @@
-// The built directory structure
-//
-// ├─┬ dist-electron
-// │ ├─┬ main
-// │ │ └── index.js    > Electron-Main
-// │ └─┬ preload
-// │   └── index.js    > Preload-Scripts
-// ├─┬ dist
-// │ └── index.html    > Electron-Renderer
-//
-
 process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
-import { release } from 'os'
-import { join } from 'path'
-import { autoUpdater } from "electron-updater"
+import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron'
+import {release} from 'os'
+import {join} from 'path'
+import {autoUpdater} from "electron-updater"
+import {registerUpdateEvent} from "./updater";
+import {MainWindow} from "./mainWindow";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -30,47 +21,12 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 
-let win: BrowserWindow | null = null
-// Here, you can also use other preload
-const preload = join(__dirname, '../preload/index.js')
-const url = process.env.VITE_DEV_SERVER_URL
-const indexHtml = join(process.env.DIST, 'index.html')
-
-async function createWindow() {
-  win = new BrowserWindow({
-    title: 'Main window',
-    icon: join(process.env.PUBLIC, 'favicon.ico'),
-    frame: false,
-    webPreferences: {
-      preload,
-      nodeIntegration: false,
-      contextIsolation: true,
-    },
-  })
-
-  if (process.env.VITE_DEV_SERVER_URL) { // electron-vite-vue#298
-    win.loadURL(url)
-    // Open devTool if the app is not packaged
-    win.webContents.openDevTools()
-  } else {
-    win.loadFile(indexHtml)
-  }
-
-  // Test actively push message to the Electron-Renderer
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString())
-  })
-
-  // Make all links open with the browser, not with the application
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
-    return { action: 'deny' }
-  })
-
-}
+// let win: BrowserWindow | null = null
+let mainWindow: MainWindow | null = null
+export {mainWindow}
 
 ipcMain.handle("test", (event, args) => {
-  console.log("from renderer",  args)
+  console.log("from renderer", args)
   return "OK from main"
 })
 
@@ -79,33 +35,35 @@ ipcMain.handle("appQuit", (event, args) => {
   app.quit()
 })
 
-app.on('ready', async function()  {
-  await createWindow()
-  console.log("Hi! Im main")
+app.on('ready', async function () {
+  mainWindow = new MainWindow()
   setTimeout(() => {
+    registerUpdateEvent()
     autoUpdater.checkForUpdates();
+    mainWindow.log("AutoUpdater Initialized")
   }, 5000)
 });
 
 app.on('window-all-closed', () => {
-  win = null
+  mainWindow.window = null
   if (process.platform !== 'darwin') app.quit()
 })
 
 app.on('second-instance', () => {
-  if (win) {
+  if (mainWindow.window) {
     // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore()
-    win.focus()
+    if (mainWindow.window.isMinimized()) mainWindow.window.restore()
+    mainWindow.window.focus()
   }
 })
 
 app.on('activate', () => {
+  // Mac用
   const allWindows = BrowserWindow.getAllWindows()
   if (allWindows.length) {
     allWindows[0].focus()
   } else {
-    createWindow()
+    mainWindow = new MainWindow()
   }
 })
 
@@ -126,29 +84,6 @@ app.on('activate', () => {
 //   }
 // })
 
-autoUpdater.on('checking-for-update', () => {
-  console.log('Checking for update...');
-  win.webContents.send("main-process-message", "Checking for update...")
-})
-autoUpdater.on('update-available', (info) => {
-  console.log('Update available.');
-  win.webContents.send("main-process-message", "Update available", info)
-})
-autoUpdater.on('update-not-available', (info) => {
-  console.log('Update not available.');
-  win.webContents.send("main-process-message", "Update not available", info)
-})
-autoUpdater.on('error', (err) => {
-  win.webContents.send("main-process-message",'Error in auto-updater. ' + err);
-})
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  win.webContents.send("main-process-message",log_message);
-})
-autoUpdater.on('update-downloaded', (info) => {
-  win.webContents.send("main-process-message",'Update downloaded');
-});
+
 
 
