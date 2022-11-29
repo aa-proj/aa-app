@@ -1,3 +1,5 @@
+import {registerIpcHandler} from "./ipcHandler";
+
 process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
@@ -20,28 +22,21 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0)
 }
 
-
-// let win: BrowserWindow | null = null
 let mainWindow: MainWindow | null = null
-export {mainWindow}
 
 ipcMain.handle("test", (event, args) => {
-  console.log("from renderer", args)
-  return "OK from main"
-})
-
-
-ipcMain.handle("appQuit", (event, args) => {
-  app.quit()
-})
-
 app.on('ready', async function () {
+  // IpcHandlerを登録
+  registerIpcHandler()
+
   mainWindow = new MainWindow()
+
   setTimeout(() => {
     registerUpdateEvent()
     autoUpdater.checkForUpdates();
     mainWindow.log("AutoUpdater Initialized")
   }, 5000)
+
 });
 
 app.on('window-all-closed', () => {
