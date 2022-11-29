@@ -29,10 +29,6 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0)
 }
 
-// Remove electron security warnings
-// This warning only shows in development mode
-// Read more on https://www.electronjs.org/docs/latest/tutorial/security
-// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null
 // Here, you can also use other preload
@@ -44,13 +40,11 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     icon: join(process.env.PUBLIC, 'favicon.ico'),
+    frame: false,
     webPreferences: {
       preload,
-      // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-      // Consider using contextBridge.exposeInMainWorld
-      // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   })
 
@@ -72,7 +66,18 @@ async function createWindow() {
     if (url.startsWith('https:')) shell.openExternal(url)
     return { action: 'deny' }
   })
+
 }
+
+ipcMain.handle("test", (event, args) => {
+  console.log("from renderer",  args)
+  return "OK from main"
+})
+
+
+ipcMain.handle("appQuit", (event, args) => {
+  app.quit()
+})
 
 app.on('ready', async function()  {
   await createWindow()
@@ -105,21 +110,21 @@ app.on('activate', () => {
 })
 
 // New window example arg: new windows url
-ipcMain.handle('open-win', (event, arg) => {
-  const childWindow = new BrowserWindow({
-    webPreferences: {
-      preload,
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  })
-
-  if (process.env.VITE_DEV_SERVER_URL) {
-    childWindow.loadURL(`${url}#${arg}`)
-  } else {
-    childWindow.loadFile(indexHtml, { hash: arg })
-  }
-})
+// ipcMain.handle('open-win', (event, arg) => {
+//   const childWindow = new BrowserWindow({
+//     webPreferences: {
+//       preload,
+//       nodeIntegration: true,
+//       contextIsolation: false,
+//     },
+//   })
+//
+//   if (process.env.VITE_DEV_SERVER_URL) {
+//     childWindow.loadURL(`${url}#${arg}`)
+//   } else {
+//     childWindow.loadFile(indexHtml, { hash: arg })
+//   }
+// })
 
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
@@ -145,3 +150,5 @@ autoUpdater.on('download-progress', (progressObj) => {
 autoUpdater.on('update-downloaded', (info) => {
   win.webContents.send("main-process-message",'Update downloaded');
 });
+
+

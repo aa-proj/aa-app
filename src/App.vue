@@ -1,17 +1,25 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-console.log("Hi2awdwa")
-
-const test = () => {
-  console.log("Test Log!")
+const closeApp = () => {
+  window.api.invoke("appQuit")
 }
 </script>
 
 <template>
-  <p>aa-appdwqdaa</p>
-  <button onclick="test()">hi</button>
+  <div class="topbar">
+    <button @click="closeApp" id="app-close">x</button>
+  </div>
+  <p>ああアプリ</p>
 </template>
 
 <style>
+.topbar {
+  width: 100%;
+  height: 25px;
+  background-color: coral;
+  -webkit-app-region: drag;
+}
+
+#app-close {
+  -webkit-app-region: none;
+}
 </style>
