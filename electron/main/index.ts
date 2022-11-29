@@ -76,6 +76,7 @@ async function createWindow() {
 
 app.on('ready', async function()  {
   await createWindow()
+  console.log("Hi! Im main")
   setTimeout(() => {
     autoUpdater.checkForUpdates();
   }, 5000)

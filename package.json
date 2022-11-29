@@ -11,6 +11,7 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "dev": "vite",
+    "electron-debug": "electron --remote-debugging-port=9229 .",
     "build": "vue-tsc --noEmit && vite build",
     "pack": "npm run build && electron-builder",
     "publish": "electron-builder -p always"

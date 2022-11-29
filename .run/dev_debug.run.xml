@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="dev:debug" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="dev" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs>
+      <env name="VSCODE_DEBUG" value="True" />
+      <env name="VITE_DEV_SERVER_URL" value="http://127.0.0.1:3344" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>
