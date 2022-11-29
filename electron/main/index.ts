@@ -1,5 +1,3 @@
-import {registerIpcHandler} from "./ipcHandler";
-
 process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
@@ -10,6 +8,7 @@ import {join} from 'path'
 import {autoUpdater} from "electron-updater"
 import {registerUpdateEvent} from "./updater";
 import {MainWindow} from "./mainWindow";
+import {registerIpcHandler} from "./ipcHandler";
 
 // Windows7はハードウェアアクセラレーションをオフにする
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
