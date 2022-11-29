@@ -11,7 +11,7 @@ import {autoUpdater} from "electron-updater"
 import {registerUpdateEvent} from "./updater";
 import {MainWindow} from "./mainWindow";
 
-// Disable GPU Acceleration for Windows 7
+// Windows7はハードウェアアクセラレーションをオフにする
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
 // Set application name for Windows 10+ notifications
@@ -24,13 +24,15 @@ if (!app.requestSingleInstanceLock()) {
 
 let mainWindow: MainWindow | null = null
 
-ipcMain.handle("test", (event, args) => {
+// ElectronがReadyの時 EntryPoint
 app.on('ready', async function () {
   // IpcHandlerを登録
   registerIpcHandler()
 
   mainWindow = new MainWindow()
 
+  // Update Check
+  // 別に遅延させる意味はあんまりない
   setTimeout(() => {
     registerUpdateEvent()
     autoUpdater.checkForUpdates();
@@ -39,6 +41,7 @@ app.on('ready', async function () {
 
 });
 
+// TODO タスクトレイに入れたい
 app.on('window-all-closed', () => {
   mainWindow.window = null
   if (process.platform !== 'darwin') app.quit()
@@ -61,6 +64,9 @@ app.on('activate', () => {
     mainWindow = new MainWindow()
   }
 })
+
+
+export {mainWindow}
 
 // New window example arg: new windows url
 // ipcMain.handle('open-win', (event, arg) => {
