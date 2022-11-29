@@ -76,7 +76,9 @@ async function createWindow() {
 
 app.on('ready', async function()  {
   await createWindow()
-  autoUpdater.checkForUpdates();
+  setTimeout(() => {
+    autoUpdater.checkForUpdates();
+  }, 5000)
 });
 
 app.on('window-all-closed', () => {
