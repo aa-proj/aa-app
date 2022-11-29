@@ -54,10 +54,10 @@ jobs:
         if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         run: npm ci
 
-#      - name: Build Release Files
-#        run: npm run build
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Release Files
+        run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #      - name: Upload Artifact
 #        uses: actions/upload-artifact@v3
@@ -66,12 +66,12 @@ jobs:
 #          name: release_on_windows
 #          path: release/
 #          retention-days: 5
-
-      - name: zip
-        uses: vimtor/action-zip@v1
-        with:
-          files: release/win-unpacked
-          dest: release/win-packed.zip
+#
+#      - name: zip
+#        uses: vimtor/action-zip@v1
+#        with:
+#          files: release/win-unpacked
+#          dest: release/win-packed.zip
 
       - name: Publish Release Files
         run: npm run publish
