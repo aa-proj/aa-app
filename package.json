@@ -1,6 +1,6 @@
 {
   "name": "aa-app",
-  "version": "0.1.6-0",
+  "version": "0.1.6-1",
   "main": "dist-electron/main/index.js",
   "description": "AhoahoJP Private Application",
   "author": "rassi0429",
