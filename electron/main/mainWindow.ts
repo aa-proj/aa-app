@@ -16,8 +16,8 @@ export class MainWindow {
       title: 'Main window',
       icon: join(process.env.PUBLIC, 'favicon.ico'),
       frame: false,
-      width: process.env.VITE_DEV_SERVER_URL ? 1400 : 920,
-      height: 700,
+      width: 920,
+      height: 600,
       webPreferences: {
         preload,
         nodeIntegration: false,
@@ -27,7 +27,7 @@ export class MainWindow {
 
     if (process.env.VITE_DEV_SERVER_URL) { // electron-vite-vue#298
       this.window.loadURL(url)
-      this.window.webContents.openDevTools()
+      this.window.webContents.openDevTools({mode:"detach"})
     } else {
       this.window.loadFile(indexHtml)
     }
