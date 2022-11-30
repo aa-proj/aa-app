@@ -14,6 +14,10 @@ const registerIpcHandler = () => {
   ipcMain.handle("openDebug",(event, args) => {
     mainWindow.window.webContents.openDevTools({mode: "detach"})
   })
+
+  ipcMain.handle("appVersion",(event, args) => {
+    return app.getVersion()
+  })
 }
 
 export {registerIpcHandler}
