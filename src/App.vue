@@ -20,7 +20,7 @@ getVersion()
 <template>
   <div class="topbar">
     <div class="topbar-left">
-      <img id="app-name" src="public/top-bar-logo-white.png">
+      <img id="app-name" src="/top-bar-logo-white.png">
       <div id="app-version">
         <div id="app-version-text">v{{ version }}</div>
       </div>
