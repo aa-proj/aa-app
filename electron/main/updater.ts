@@ -25,6 +25,8 @@ export const registerUpdateEvent = () => {
   })
   autoUpdater.on('update-downloaded', (info) => {
     mainWindow.log('Update downloaded');
-    autoUpdater.quitAndInstall(true, true);
+    setImmediate(() => {
+      autoUpdater.quitAndInstall(true, true);
+    })
   });
 }
