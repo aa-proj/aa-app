@@ -33,6 +33,7 @@ app.on('ready', async function () {
   registerIpcHandler()
 
   // 起動画面
+  // splashWindow = new SplashWindow()
   splashWindow = new SplashWindow()
 
   registerUpdateEvent()
@@ -44,6 +45,11 @@ app.on('ready', async function () {
   }
 
 });
+
+const launchMain = () => {
+  splashWindow.window.close()
+  mainWindow = new MainWindow()
+}
 
 // TODO タスクトレイに入れたい
 app.on('window-all-closed', () => {
@@ -59,7 +65,7 @@ app.on('second-instance', () => {
   }
 })
 
-export {mainWindow, splashWindow}
+export {mainWindow, splashWindow, launchMain}
 
 
 

@@ -1,5 +1,5 @@
 import {autoUpdater} from "electron-updater";
-import {mainWindow, splashWindow} from "./index";
+import {launchMain, mainWindow, splashWindow} from "./index";
 
 export const registerUpdateEvent = () => {
   autoUpdater.on('checking-for-update', () => {
@@ -14,9 +14,11 @@ export const registerUpdateEvent = () => {
   })
   autoUpdater.on('update-not-available', (info) => {
     console.log('Update not available.');
+    launchMain()
     // mainWindow.log("Update not available", info)
   })
   autoUpdater.on('error', (err) => {
+    splashWindow.window.webContents.send("status", "エラー")
     // mainWindow.log('Error in auto-updater. ' + err);
   })
   autoUpdater.on('download-progress', (progressObj) => {
