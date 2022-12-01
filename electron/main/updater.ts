@@ -27,7 +27,7 @@ export const registerUpdateEvent = () => {
     // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
     // mainWindow.log(log_message);
 
-    splashWindow.window.webContents.send("status", `ダウンロード中 ${progressObj.percent}%`)
+    splashWindow.window.webContents.send("status", `ダウンロード中 ${Math.floor(progressObj.percent * 10) / 10}%`)
   })
   autoUpdater.on('update-downloaded', (info) => {
     // mainWindow.log('Update downloaded');
