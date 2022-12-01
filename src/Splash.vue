@@ -3,7 +3,8 @@ import {ref} from "vue";
 
 const status = ref<string>("")
 
-window.api.on("status", (_: any, msg: string) => {
+window.api.on("status", (msg: string) => {
+  console.log(msg)
   status.value = msg
 })
 </script>

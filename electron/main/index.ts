@@ -35,14 +35,18 @@ app.on('ready', async function () {
   // 起動画面
   // splashWindow = new SplashWindow()
   splashWindow = new SplashWindow()
+  setTimeout(async () => {
+    splashWindow.window.webContents.send("status", "起動中")
 
-  registerUpdateEvent()
-  if(!(await autoUpdater.checkForUpdates())) {
-    setTimeout(() => {
-      splashWindow.window.close()
-      mainWindow = new MainWindow()
-    }, 3000)
-  }
+    registerUpdateEvent()
+    if(!(await autoUpdater.checkForUpdates())) {
+      setTimeout(() => {
+        splashWindow.window.close()
+        mainWindow = new MainWindow()
+      }, 3000)
+    }
+  }, 500)
+
 
 });
 
