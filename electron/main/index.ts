@@ -1,9 +1,17 @@
+
+import {join} from "path";
+
+process.env.DIST_ELECTRON = join(__dirname, '..')
+process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
+process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
+
 import {app, BrowserWindow} from 'electron'
 import {release} from 'os'
 import {autoUpdater} from "electron-updater"
 import {registerUpdateEvent} from "./updater";
-import {MainWindow} from "./mainWindow";
+import {MainWindow} from "./window/mainWindow";
 import {registerIpcHandler} from "./ipcHandler";
+import {SplashWindow} from "./window/splash";
 
 // Windows7はハードウェアアクセラレーションをオフにする
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -17,21 +25,23 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 let mainWindow: MainWindow | null = null
+let splashWindow: SplashWindow | null = null
 
 // ElectronがReadyの時 EntryPoint
 app.on('ready', async function () {
   // IpcHandlerを登録
   registerIpcHandler()
 
-  mainWindow = new MainWindow()
+  // 起動画面
+  splashWindow = new SplashWindow()
 
-  // Update Check
-  // 別に遅延させる意味はあんまりない
-  setTimeout(() => {
-    registerUpdateEvent()
-    autoUpdater.checkForUpdates();
-    mainWindow.log("AutoUpdater Initialized")
-  }, 5000)
+  registerUpdateEvent()
+  if(!(await autoUpdater.checkForUpdates())) {
+    setTimeout(() => {
+      splashWindow.window.close()
+      mainWindow = new MainWindow()
+    }, 3000)
+  }
 
 });
 
@@ -49,36 +59,7 @@ app.on('second-instance', () => {
   }
 })
 
-app.on('activate', () => {
-  // Mac用
-  const allWindows = BrowserWindow.getAllWindows()
-  if (allWindows.length) {
-    allWindows[0].focus()
-  } else {
-    mainWindow = new MainWindow()
-  }
-})
-
-
-export {mainWindow}
-
-// New window example arg: new windows url
-// ipcMain.handle('open-win', (event, arg) => {
-//   const childWindow = new BrowserWindow({
-//     webPreferences: {
-//       preload,
-//       nodeIntegration: true,
-//       contextIsolation: false,
-//     },
-//   })
-//
-//   if (process.env.VITE_DEV_SERVER_URL) {
-//     childWindow.loadURL(`${url}#${arg}`)
-//   } else {
-//     childWindow.loadFile(indexHtml, { hash: arg })
-//   }
-// })
-
+export {mainWindow, splashWindow}
 
 
 
