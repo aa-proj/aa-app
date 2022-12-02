@@ -21,13 +21,13 @@ const props = defineProps({
 
 .button {
   height: 50px;
-  padding: 5px 0;
+  padding: 10px 0;
 }
 
 .button-inner {
   height: 100%;
   margin-right: 20px;
-  border-radius: 0 15px 15px 0;
+  border-radius: 0 25px 25px 0;
   background-color: aliceblue;
   padding-left: 20px;
   display: flex;

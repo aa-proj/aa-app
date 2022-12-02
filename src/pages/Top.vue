@@ -2,8 +2,23 @@
 </script>
 
 <template>
-  <div>第３回　ハードコアマイクラ開催中！</div>
+  <div class="container">
+    <div class="banner">
+      <img src="/sample-banner.png">
+    </div>
+  </div>
 </template>
 
 <style>
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner img {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
 </style>
