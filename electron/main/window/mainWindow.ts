@@ -18,6 +18,7 @@ export class MainWindow {
       icon: join(process.env.PUBLIC, 'favicon.ico'),
       frame: false,
       width: 920,
+      minWidth: 500,
       height: 600,
       webPreferences: {
         preload,

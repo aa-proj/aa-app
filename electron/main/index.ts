@@ -43,9 +43,9 @@ app.on('ready', async function () {
       setTimeout(() => {
         splashWindow.window.close()
         mainWindow = new MainWindow()
-      }, 3000)
+      }, 5000)
     }
-  }, 500)
+  }, 1000)
 
 
 });
