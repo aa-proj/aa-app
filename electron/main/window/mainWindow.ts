@@ -20,6 +20,7 @@ export class MainWindow {
       width: 920,
       minWidth: 500,
       height: 600,
+      minHeight: 400,
       webPreferences: {
         preload,
         nodeIntegration: false,

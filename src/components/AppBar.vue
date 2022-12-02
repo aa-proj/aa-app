@@ -92,6 +92,7 @@ setInterval(() => {
   border-radius: 12px;
   border: none;
   background-color: yellow;
+  -webkit-app-region: none;
 }
 
 #app-name {
@@ -101,7 +102,7 @@ setInterval(() => {
 
 #app-time-text {
   color: aliceblue;
-  font-size: 17px;
+  font-size: 15px;
   padding-top: 3px;
   padding-right: 10px;
 }
