@@ -19,6 +19,7 @@ export class SplashWindow {
       width: 300,
       height: 400,
       resizable: false,
+      alwaysOnTop: true,
       webPreferences: {
         preload,
         nodeIntegration: false,

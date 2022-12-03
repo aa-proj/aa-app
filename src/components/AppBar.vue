@@ -103,7 +103,7 @@ setInterval(() => {
 #app-time-text {
   color: aliceblue;
   font-size: 15px;
-  padding-top: 3px;
+  padding-top: 2px;
   padding-right: 10px;
 }
 </style>

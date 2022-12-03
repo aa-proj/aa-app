@@ -5,7 +5,7 @@ const props = defineProps({
 </script>
 <template>
   <div class="button">
-    <div class="button-inner">
+    <div class="button-inner" >
       <div class="button-icon">
         <svg viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 18V6L8 0L16 6V18H10V11H6V18H0Z" fill="black"/>

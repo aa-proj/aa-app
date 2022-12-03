@@ -3,9 +3,7 @@
 
 <template>
   <div class="container">
-    <div class="banner">
-      <img src="/sample-banner-2.png">
-    </div>
+    this is Test Page!
   </div>
 </template>
 

@@ -2,15 +2,24 @@
 import AppBar from "./components/AppBar.vue";
 import LeftMenu from "./components/LeftMenu/LeftMenu.vue";
 import Top from "./pages/Top.vue";
+import Test from "./pages/Test.vue";
+import {ref} from "vue";
+
+const pageIndex = ref<number>(0)
+
+const updatePageIndex = (index: number) => {
+  pageIndex.value = index
+}
 
 </script>
 
 <template>
   <AppBar></AppBar>
   <div class="main-container">
-    <LeftMenu class="left-menu"></LeftMenu>
+    <LeftMenu class="left-menu" @updatePageIndex="updatePageIndex"/>
     <div class="content-page">
-      <Top></Top>
+      <Top v-if="pageIndex === 0"></Top>
+      <Test v-if="pageIndex === 1"></Test>
     </div>
   </div>
 </template>
