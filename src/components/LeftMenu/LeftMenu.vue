@@ -2,6 +2,11 @@
 import PageButton from "./components/PageButton.vue";
 import AccountBox from "./components/AccountBox.vue";
 
+const props = defineProps({
+  pageIndex: Number
+})
+console.log(props)
+
 const updatePageIndex = defineEmits(["updatePageIndex"])
 
 const sendIndex = (value: number) => {
@@ -12,9 +17,9 @@ const sendIndex = (value: number) => {
 <template>
   <div class="container">
     <div class="buttons">
-      <PageButton :title="'Home'" @click="sendIndex(0)"/>
-      <PageButton :title="'Minecraft'" @click="sendIndex(1)"/>
-      <PageButton :title="'HogeHage'"/>
+      <PageButton :title="'Home'" @click="sendIndex(0)" :selected="props.pageIndex === 0"/>
+      <PageButton :title="'Minecraft'" @click="sendIndex(1)"  :selected="props.pageIndex === 1"/>
+      <PageButton :title="'HogeHage'" :selected="props.pageIndex === 2"/>
     </div>
     <div class="bottom">
       <AccountBox/>

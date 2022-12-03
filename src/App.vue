@@ -16,7 +16,7 @@ const updatePageIndex = (index: number) => {
 <template>
   <AppBar></AppBar>
   <div class="main-container">
-    <LeftMenu class="left-menu" @updatePageIndex="updatePageIndex"/>
+    <LeftMenu class="left-menu" :pageIndex="pageIndex" @updatePageIndex="updatePageIndex"/>
     <div class="content-page">
       <Top v-if="pageIndex === 0"></Top>
       <Test v-if="pageIndex === 1"></Test>
