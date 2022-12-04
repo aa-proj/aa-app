@@ -3,7 +3,7 @@ const props = defineProps({
   title: String,
   selected: Boolean
 })
-console.log(props)
+// console.log(props)
 </script>
 <template>
   <div class="button">

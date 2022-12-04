@@ -1,5 +1,5 @@
 import {app, ipcMain} from 'electron'
-import {mainWindow} from "./index";
+import {mainWindow, store} from "./index";
 
 const registerIpcHandler = () => {
   ipcMain.handle("test", (event, args) => {
@@ -18,6 +18,11 @@ const registerIpcHandler = () => {
   ipcMain.handle("appVersion",(event, args) => {
     return app.getVersion()
   })
+
+  ipcMain.handle("getStore",(event, args) => {
+    return store.get(args)
+  })
+
 }
 
 export {registerIpcHandler}

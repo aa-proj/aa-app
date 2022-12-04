@@ -12,6 +12,11 @@ import {registerUpdateEvent} from "./updater";
 import {MainWindow} from "./window/mainWindow";
 import {registerIpcHandler} from "./ipcHandler";
 import {SplashWindow} from "./window/splash";
+import {WebServer} from "./server";
+import Store from "electron-store"
+import {DiscordManager} from "./discordManager";
+
+const store = new Store()
 
 // Windows7はハードウェアアクセラレーションをオフにする
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -27,10 +32,16 @@ if (!app.requestSingleInstanceLock()) {
 let mainWindow: MainWindow | null = null
 let splashWindow: SplashWindow | null = null
 
+const discordManager: DiscordManager = new DiscordManager()
+
 // ElectronがReadyの時 EntryPoint
 app.on('ready', async function () {
   // IpcHandlerを登録
   registerIpcHandler()
+
+  // 認証用Webサーバを起動
+  new WebServer()
+
 
   // 起動画面
   // splashWindow = new SplashWindow()
@@ -69,7 +80,7 @@ app.on('second-instance', () => {
   }
 })
 
-export {mainWindow, splashWindow, launchMain}
+export {mainWindow, splashWindow, launchMain, store, discordManager}
 
 
 
