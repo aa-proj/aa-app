@@ -7,8 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "pre": "npm version prerelease",
-    "patch": "npm version patch",
+    "patch": "npm run build && npm version patch",
     "minor": "npm version minor",
     "dev": "vite",
     "electron-debug": "electron --remote-debugging-port=9229 .",

@@ -5,8 +5,6 @@ import AccountBox from "./components/AccountBox.vue";
 const props = defineProps({
   pageIndex: Number
 })
-console.log(props)
-
 const updatePageIndex = defineEmits(["updatePageIndex"])
 
 const sendIndex = (value: number) => {
