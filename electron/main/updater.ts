@@ -19,6 +19,7 @@ export const registerUpdateEvent = () => {
   })
   autoUpdater.on('error', (err) => {
     splashWindow.window.webContents.send("status", "エラー")
+    splashWindow.window.webContents.send("log", [err])
     // mainWindow.log('Error in auto-updater. ' + err);
   })
   autoUpdater.on('download-progress', (progressObj) => {
