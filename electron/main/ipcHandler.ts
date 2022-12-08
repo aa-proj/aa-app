@@ -8,7 +8,8 @@ const registerIpcHandler = () => {
   })
 
   ipcMain.handle("appQuit", (event, args) => {
-    app.quit()
+    mainWindow.window.close()
+    // app.quit()
   })
 
   ipcMain.handle("openDebug",(event, args) => {

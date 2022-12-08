@@ -5,7 +5,7 @@ process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, Tray, Menu} from 'electron'
 import {release} from 'os'
 import {autoUpdater} from "electron-updater"
 import {registerUpdateEvent} from "./updater";
@@ -15,6 +15,7 @@ import {SplashWindow} from "./window/splash";
 import {WebServer} from "./server";
 import Store from "electron-store"
 import {DiscordManager} from "./discordManager";
+import {TaskTray} from "./tray";
 
 const store = new Store()
 
@@ -42,6 +43,8 @@ app.on('ready', async function () {
   // 認証用Webサーバを起動
   new WebServer()
 
+  // タスクトレイを準備
+  new TaskTray()
 
   // 起動画面
   // splashWindow = new SplashWindow()
@@ -62,14 +65,18 @@ app.on('ready', async function () {
 });
 
 const launchMain = () => {
-  splashWindow.window.close()
+  splashWindow?.window.close()
+  mainWindow = new MainWindow()
+}
+
+const createMain = () => {
   mainWindow = new MainWindow()
 }
 
 // TODO タスクトレイに入れたい
 app.on('window-all-closed', () => {
-  mainWindow.window = null
-  if (process.platform !== 'darwin') app.quit()
+  // mainWindow.window = null
+  // if (process.platform !== 'darwin') app.quit()
 })
 
 app.on('second-instance', () => {
@@ -80,7 +87,7 @@ app.on('second-instance', () => {
   }
 })
 
-export {mainWindow, splashWindow, launchMain, store, discordManager}
+export {mainWindow, splashWindow, launchMain, store, discordManager, createMain}
 
 
 
