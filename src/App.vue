@@ -3,6 +3,7 @@ import AppBar from "./components/AppBar.vue";
 import LeftMenu from "./components/LeftMenu/LeftMenu.vue";
 import Top from "./pages/Top.vue";
 import Test from "./pages/Test.vue";
+import Bank from "./pages/Bank.vue";
 import {ref} from "vue";
 
 const pageIndex = ref<number>(0)
@@ -20,6 +21,7 @@ const updatePageIndex = (index: number) => {
     <div class="content-page">
       <Top v-if="pageIndex === 0"></Top>
       <Test v-if="pageIndex === 1"></Test>
+      <Bank v-if="pageIndex === 2"></Bank>
     </div>
   </div>
 </template>

@@ -17,7 +17,7 @@ const sendIndex = (value: number) => {
     <div class="buttons">
       <PageButton :title="'Home'" @click="sendIndex(0)" :selected="props.pageIndex === 0"/>
       <PageButton :title="'Minecraft'" @click="sendIndex(1)"  :selected="props.pageIndex === 1"/>
-      <PageButton :title="'HogeHage'" :selected="props.pageIndex === 2"/>
+      <PageButton :title="'国営銀行'" @click="sendIndex(2)" :selected="props.pageIndex === 2"/>
     </div>
     <div class="bottom">
       <AccountBox/>
