@@ -1,7 +1,7 @@
 import {app, Tray, Menu} from 'electron'
 import {createMain, launchMain, mainWindow} from "./index";
 
-const imageFilePath = './public/favicon.ico'
+const imageFilePath = process.platform === 'win32' ? './public/favicon.ico' : './public/favicon.png'
 
 export class TaskTray {
   tray: Tray
