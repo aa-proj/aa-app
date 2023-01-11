@@ -1,12 +1,13 @@
 import {app, Tray, Menu} from 'electron'
 import {createMain, launchMain, mainWindow} from "./index";
+import * as path from "path";
 
-const imageFilePath = process.platform === 'win32' ? './public/favicon.ico' : './public/favicon.png'
+let imgPath = app.isPackaged ?  path.join(__dirname, "../../dist/favicon.ico") : "./public/favicon.ico";
 
 export class TaskTray {
   tray: Tray
   constructor() {
-    this.tray = new Tray(imageFilePath)
+    this.tray = new Tray(imgPath)
     this.tray.setToolTip(app.name)
     this.tray.on("double-click", () => {
       createMain()
