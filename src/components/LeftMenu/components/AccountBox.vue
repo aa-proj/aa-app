@@ -30,8 +30,15 @@ discordUpdateState()
       <div class="account-box-icon">
         <img :src="`https://cdn.discordapp.com/avatars/${discordData.id}/${discordData.avatar}.png`"/>
       </div>
-      <div class="account-box-text">
-        {{ discordData.username }}#{{ discordData.discriminator }}
+      <div class="account-box-content">
+        <div class="account-box-text">
+          {{ discordData.username }}#{{ discordData.discriminator }}
+        </div>
+        <div class="account-box-actions">
+          <button>ねる</button>
+          <button>おきる</button>
+          <button>風呂</button>
+        </div>
       </div>
     </div>
     <div class="account-box-inner" v-else>
@@ -49,6 +56,15 @@ discordUpdateState()
 .account-box {
   height: 52px;
   padding: 5px;
+}
+
+.account-box-content {
+  display: flex;
+  flex-flow: column;
+}
+
+.account-box-actions {
+  display: flex;
 }
 
 .account-box-inner {
